@@ -8,60 +8,55 @@
 import UIKit
 import SwiftUI
 
-class SDUIHostingController<Content: View>: UIHostingController<Content> {
-    var router: AnyObject?
-    var delegate: AnyObject?
-}
-
-protocol SDUIRouter: BaseRouter {
-    @MainActor func navigateToScreen(id: String)
-}
-
-final class SDUIRouterImp: SDUIRouter {
+final class SDUIRouterImp: @preconcurrency BaseRouter, ObservableObject {
     weak var screenVC: UIViewController?
     
     @MainActor
     static func create(screenId: String) -> UIViewController {
         let router = SDUIRouterImp()
-        let delegate = SDUINavigationDelegate()
-        
-        let screenView = ScreenView(screenId: screenId)
+        let view = ScreenView(screenId: screenId)
             .environmentObject(UIClient.shared)
-            .environmentObject(delegate)
-        
-        let controller = SDUIHostingController(rootView: screenView)
+            .environmentObject(router)
+        let controller = createVC(with: view, controllerType: SDUIViewController.self)
         controller.router = router
-        controller.delegate = delegate
         router.screenVC = controller
-        
-        controller.title = screenId.capitalized
-        controller.navigationItem.largeTitleDisplayMode = .automatic
-        
-        // Navigation Actions
-        delegate.onNavigate = { [weak router] nextId in
-            router?.navigateToScreen(id: nextId)
-        }
-        delegate.onBack = { [weak router] in
-            router?.screenVC?.navigationController?.popViewController(animated: true)
-        }
-        delegate.onReset = { [weak router] in
-            router?.screenVC?.navigationController?.popToRootViewController(animated: true)
-        }
-        
-        // MARK: - FIX: Handle Alert via UIKit
-        delegate.onAlert = { [weak router] message in
-            let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            // Present on the current View Controller
-            router?.screenVC?.present(alert, animated: true)
-        }
+        router.setNavigationTitle(screenId.capitalized)
         
         return controller
     }
     
     @MainActor
-    func navigateToScreen(id: String) {
-        let nextVC = SDUIRouterImp.create(screenId: id)
-        screenVC?.navigationController?.pushViewController(nextVC, animated: true)
+    static func startApp(initialId: String) {
+        let rootVC = SDUIRouterImp.create(screenId: initialId)
+        let nav = UINavigationController(rootViewController: rootVC)
+        nav.navigationBar.prefersLargeTitles = true
+        nav.navigationBar.tintColor = .label
+        
+        let router = SDUIRouterImp()
+        router.setRootVC(nav)
+    }
+    
+    @MainActor
+    func handle(_ action: SDUIAction?) {
+        guard let action = action else { return }
+        
+        switch action.type {
+        case .navigate:
+            if let dest = action.destination {
+                pushVC(SDUIRouterImp.create(screenId: dest))
+            }
+        case .goBack:
+            popVC()
+        case .reset:
+            resetToRoot()
+        case .alert:
+            if let msg = action.destination {
+                presentAlert(message: msg)
+            }
+        case .openURL:
+            if let str = action.destination, let url = URL(string: str) {
+                UIApplication.shared.open(url)
+            }
+        }
     }
 }

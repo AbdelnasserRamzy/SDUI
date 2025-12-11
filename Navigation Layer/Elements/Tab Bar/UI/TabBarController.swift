@@ -41,8 +41,8 @@ final class TabBarController: UITabBarController {
     private func setupTabBarViews() {
         var views = [UIViewController]()
         for item in TabItem.allCases {
-            let view = NavigationController(rootViewController: item.view)
-            views.append(view)
+//            let view = NavigationController(rootViewController: item.view)
+//            views.append(view)
         }
         viewControllers = views
     }

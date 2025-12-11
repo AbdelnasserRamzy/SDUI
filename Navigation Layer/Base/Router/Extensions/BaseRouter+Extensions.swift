@@ -10,8 +10,11 @@ import SwiftUI
 import UIKit.UIViewController
 
 extension BaseRouter {
-    static func createVC<Content: View>(with rootView: Content) -> UIViewController {
-        let controller = UIViewController()
+    static func createVC<Content: View, T: UIViewController>(
+        with rootView: Content,
+        controllerType: T.Type = T.self
+      ) -> T {
+        let controller = T()
         controller.setupHosting(rootView: rootView)
         return controller
     }

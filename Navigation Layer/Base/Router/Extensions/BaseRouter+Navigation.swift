@@ -33,4 +33,21 @@ extension BaseRouter {
             animated: true
         )
     }
+
+    @MainActor
+    func popVC() {
+        screenVC?.navigationController?.popViewController(animated: true)
+    }
+    
+    @MainActor
+    func resetToRoot() {
+        screenVC?.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @MainActor
+    func presentAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        screenVC?.present(alert, animated: true)
+    }
 }
