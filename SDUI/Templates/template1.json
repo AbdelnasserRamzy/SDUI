@@ -1,0 +1,297 @@
+{
+    "components": [
+        {
+            "type": "banner",
+            "height": 180,
+            "autoScrollInterval": 3.0,
+            "isWrap": true,
+            "spacing": 10,
+            "headspace": 5,
+            "sidesScaling": 0.8,
+            "children": [
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "laptopcomputer",
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Laptop Sale! Up to 30% off"
+                    }
+                },
+                {
+                    "type": "image",
+                    "imageType": "remote",
+                    "imageUrl": "https://picsum.photos/id/1011/600/300",
+                    "height": 180,
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Explore the nature"
+                    }
+                },
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "headphones",
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Premium Headphones Collection"
+                    }
+                },
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "gamecontroller.fill",
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Gaming Accessories - Best Price"
+                    }
+                },
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "iphone",
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Latest iPhone Models Available"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "scrollView",
+            "scrollDirection": "horizontal",
+            "showsIndicators": false,
+            "spacing": 15,
+            "height": 150,
+            "children": [
+                {
+                    "type": "column",
+                    "alignment": "center",
+                    "backgroundColor": "#E8EAF6",
+                    "cornerRadius": 12,
+                    "width": 120,
+                    "padding": {
+                        "top": 15,
+                        "bottom": 15,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Electronics"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "laptopcomputer",
+                            "height": 30,
+                            "width": 30,
+                            "padding": {
+                                "bottom": 10
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Electronics",
+                            "fontSize": 14,
+                            "fontWeight": "semibold",
+                            "textColor": "#1A237E",
+                            "alignment": "center"
+                        }
+                    ]
+                },
+                {
+                    "type": "column",
+                    "alignment": "center",
+                    "backgroundColor": "#FCE4EC",
+                    "cornerRadius": 12,
+                    "width": 120,
+                    "padding": {
+                        "top": 15,
+                        "bottom": 15,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Fashion"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "tshirt.fill",
+                            "height": 30,
+                            "width": 30,
+                            "padding": {
+                                "bottom": 10
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Fashion",
+                            "fontSize": 14,
+                            "fontWeight": "semibold",
+                            "textColor": "#880E4F",
+                            "alignment": "center"
+                        }
+                    ]
+                },
+                {
+                    "type": "column",
+                    "alignment": "center",
+                    "backgroundColor": "#E0F2F1",
+                    "cornerRadius": 12,
+                    "width": 120,
+                    "padding": {
+                        "top": 15,
+                        "bottom": 15,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Home & Living"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "house.fill",
+                            "height": 30,
+                            "width": 30,
+                            "padding": {
+                                "bottom": 10
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Home & Living",
+                            "fontSize": 14,
+                            "fontWeight": "semibold",
+                            "textColor": "#004D40",
+                            "alignment": "center"
+                        }
+                    ]
+                },
+                {
+                    "type": "column",
+                    "alignment": "center",
+                    "backgroundColor": "#FFF3E0",
+                    "cornerRadius": 12,
+                    "width": 120,
+                    "padding": {
+                        "top": 15,
+                        "bottom": 15,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Sports"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "sportscourt.fill",
+                            "height": 30,
+                            "width": 30,
+                            "padding": {
+                                "bottom": 10
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Sports",
+                            "fontSize": 14,
+                            "fontWeight": "semibold",
+                            "textColor": "#E65100",
+                            "alignment": "center"
+                        }
+                    ]
+                },
+                {
+                    "type": "column",
+                    "alignment": "center",
+                    "backgroundColor": "#F3E5F5",
+                    "cornerRadius": 12,
+                    "width": 120,
+                    "padding": {
+                        "top": 15,
+                        "bottom": 15,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Books"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "book.fill",
+                            "height": 30,
+                            "width": 30,
+                            "padding": {
+                                "bottom": 10
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Books",
+                            "fontSize": 14,
+                            "fontWeight": "semibold",
+                            "textColor": "#4A148C",
+                            "alignment": "center"
+                        }
+                    ]
+                },
+                {
+                    "type": "column",
+                    "alignment": "center",
+                    "backgroundColor": "#E1F5FE",
+                    "cornerRadius": 12,
+                    "width": 120,
+                    "padding": {
+                        "top": 15,
+                        "bottom": 15,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Toys"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "cube.fill",
+                            "height": 30,
+                            "width": 30,
+                            "padding": {
+                                "bottom": 10
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Toys",
+                            "fontSize": 14,
+                            "fontWeight": "semibold",
+                            "textColor": "#01579B",
+                            "alignment": "center"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

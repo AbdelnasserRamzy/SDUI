@@ -1,0 +1,313 @@
+{
+    "screens": [
+        {
+            "id": "home",
+            "type": "column",
+            "alignment": "center",
+            "backgroundColor": "#F5F5F5",
+            "padding": {
+                "top": 30,
+                "bottom": 20,
+                "leading": 15,
+                "trailing": 15
+            },
+            "children": [
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "house.fill",
+                    "height": 120,
+                    "padding": {
+                        "bottom": 20
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "🏠 Welcome Home",
+                    "fontSize": 32,
+                    "fontWeight": "bold",
+                    "textColor": "#0B56A3",
+                    "alignment": "center",
+                    "padding": {
+                        "bottom": 8
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "Explore your server-driven interface",
+                    "fontSize": 16,
+                    "fontWeight": "regular",
+                    "textColor": "#666666",
+                    "alignment": "center",
+                    "padding": {
+                        "bottom": 30
+                    }
+                },
+                {
+                    "type": "button",
+                    "text": "View Details",
+                    "fontSize": 18,
+                    "fontWeight": "semibold",
+                    "textColor": "#FFFFFF",
+                    "backgroundColor": "#0B56A3",
+                    "cornerRadius": 8,
+                    "height": 50,
+                    "action": {
+                        "type": "navigate",
+                        "destination": "details"
+                    }
+                },
+                {
+                    "type": "button",
+                    "text": "Go to Profile",
+                    "fontSize": 18,
+                    "fontWeight": "medium",
+                    "textColor": "#0B56A3",
+                    "backgroundColor": "#E3F2FD",
+                    "cornerRadius": 8,
+                    "height": 50,
+                    "action": {
+                        "type": "navigate",
+                        "destination": "profile"
+                    }
+                },
+                {
+                    "type": "button",
+                    "text": "🛒 Browse Marketplace",
+                    "fontSize": 18,
+                    "fontWeight": "medium",
+                    "textColor": "#1A237E",
+                    "backgroundColor": "#E8EAF6",
+                    "cornerRadius": 8,
+                    "height": 50,
+                    "action": {
+                        "type": "navigate",
+                        "destination": "marketplace"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "details",
+            "type": "column",
+            "backgroundColor": "#FFFFFF",
+            "padding": {
+                "top": 25,
+                "leading": 20,
+                "trailing": 20,
+                "bottom": 20
+            },
+            "children": [
+                {
+                    "type": "image",
+                    "imageType": "remote",
+                    "imageUrl": "https://picsum.photos/id/1011/600/300",
+                    "height": 200,
+                    "padding": {
+                        "bottom": 15
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "📋 Details Screen",
+                    "fontSize": 28,
+                    "fontWeight": "bold",
+                    "textColor": "#2E7D32",
+                    "alignment": "leading",
+                    "padding": {
+                        "bottom": 12
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "This screen demonstrates cornerRadius and frame control. Notice the rounded buttons below!",
+                    "fontSize": 15,
+                    "fontWeight": "regular",
+                    "textColor": "#424242",
+                    "alignment": "leading",
+                    "padding": {
+                        "bottom": 25
+                    }
+                },
+                {
+                    "type": "row",
+                    "alignment": "center",
+                    "padding": {
+                        "top": 10,
+                        "bottom": 15
+                    },
+                    "children": [
+                        {
+                            "type": "button",
+                            "text": "Learn More",
+                            "fontSize": 16,
+                            "fontWeight": "medium",
+                            "textColor": "#FFFFFF",
+                            "backgroundColor": "#FF6B35",
+                            "cornerRadius": 8,
+                            "height": 50,
+                            "action": {
+                                "type": "openURL",
+                                "destination": "https://apple.com"
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "text": "← Back",
+                            "fontSize": 16,
+                            "fontWeight": "medium",
+                            "textColor": "#FFFFFF",
+                            "backgroundColor": "#757575",
+                            "cornerRadius": 8,
+                            "height": 50,
+                            "action": {
+                                "type": "goBack"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "profile",
+            "type": "column",
+            "alignment": "center",
+            "backgroundColor": "#FFF3E0",
+            "padding": {
+                "top": 40,
+                "leading": 20,
+                "trailing": 20,
+                "bottom": 20
+            },
+            "children": [
+                {
+                    "type": "image",
+                    "imageType": "remote",
+                    "imageUrl": "https://placekitten.com/600/300",
+                    "height": 200,
+                    "padding": {
+                        "bottom": 25
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "👤 User Profile",
+                    "fontSize": 30,
+                    "fontWeight": "bold",
+                    "textColor": "#E65100",
+                    "alignment": "center",
+                    "padding": {
+                        "bottom": 10
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "John Doe",
+                    "fontSize": 22,
+                    "fontWeight": "semibold",
+                    "textColor": "#424242",
+                    "alignment": "center",
+                    "padding": {
+                        "bottom": 5
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "john.doe@example.com",
+                    "fontSize": 16,
+                    "fontWeight": "regular",
+                    "textColor": "#757575",
+                    "alignment": "center",
+                    "padding": {
+                        "bottom": 30
+                    }
+                },
+                {
+                    "type": "column",
+                    "backgroundColor": "#FFFFFF",
+                    "cornerRadius": 16,
+                    "padding": {
+                        "top": 20,
+                        "bottom": 20,
+                        "leading": 20,
+                        "trailing": 20
+                    },
+                    "children": [
+                        {
+                            "type": "text",
+                            "text": "Account Information",
+                            "fontSize": 18,
+                            "fontWeight": "bold",
+                            "textColor": "#212121",
+                            "alignment": "leading",
+                            "padding": {
+                                "bottom": 15
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Member since: January 2024",
+                            "fontSize": 14,
+                            "fontWeight": "regular",
+                            "textColor": "#616161",
+                            "alignment": "leading",
+                            "padding": {
+                                "bottom": 8
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Total projects: 12",
+                            "fontSize": 14,
+                            "fontWeight": "regular",
+                            "textColor": "#616161",
+                            "alignment": "leading",
+                            "padding": {
+                                "bottom": 20
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "button",
+                    "text": "Edit Profile",
+                    "fontSize": 17,
+                    "fontWeight": "semibold",
+                    "textColor": "#FFFFFF",
+                    "backgroundColor": "#E65100",
+                    "cornerRadius": 8,
+                    "height": 50,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Edit functionality"
+                    }
+                },
+                {
+                    "type": "button",
+                    "text": "🏠 Reset to Home",
+                    "fontSize": 16,
+                    "fontWeight": "medium",
+                    "textColor": "#E65100",
+                    "backgroundColor": "#FFFFFF",
+                    "cornerRadius": 8,
+                    "height": 50,
+                    "action": {
+                        "type": "reset"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "marketplace",
+            "type": "column",
+            "templateId": "template2",
+            "backgroundColor": "#FFFFFF",
+            "padding": {
+                "top": 20,
+                "leading": 0,
+                "trailing": 0,
+                "bottom": 20
+            }
+        }
+    ]
+}

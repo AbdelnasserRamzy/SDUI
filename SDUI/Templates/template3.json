@@ -1,0 +1,355 @@
+{
+    "components": [
+        {
+            "type": "banner",
+            "height": 180,
+            "autoScrollInterval": 3.0,
+            "isWrap": true,
+            "spacing": 10,
+            "headspace": 5,
+            "sidesScaling": 0.8,
+            "children": [
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "laptopcomputer",
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Laptop Sale! Up to 30% off"
+                    }
+                },
+                {
+                    "type": "image",
+                    "imageType": "remote",
+                    "imageUrl": "https://picsum.photos/id/1011/600/300",
+                    "height": 180,
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Explore the nature"
+                    }
+                },
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "headphones",
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Premium Headphones Collection"
+                    }
+                },
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "gamecontroller.fill",
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Gaming Accessories - Best Price"
+                    }
+                },
+                {
+                    "type": "image",
+                    "imageType": "local",
+                    "imageUrl": "iphone",
+                    "cornerRadius": 12,
+                    "action": {
+                        "type": "alert",
+                        "destination": "Latest iPhone Models Available"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "text",
+            "text": "Featured Products",
+            "fontSize": 24,
+            "fontWeight": "bold",
+            "textColor": "#212121",
+            "alignment": "leading",
+            "padding": {
+                "leading": 20,
+                "trailing": 20,
+                "bottom": 15
+            }
+        },
+        {
+            "type": "column",
+            "spacing": 10,
+            "maxItemsToDisplay": 5,
+            "padding": {
+                "bottom": 20
+            },
+            "children": [
+                {
+                    "type": "row",
+                    "backgroundColor": "#FFFFFF",
+                    "cornerRadius": 8,
+                    "padding": {
+                        "top": 10,
+                        "bottom": 10,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Wireless Headphones"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "headphones",
+                            "width": 80,
+                            "height": 80,
+                            "backgroundColor": "#FAFAFA",
+                            "cornerRadius": 8,
+                            "padding": {
+                                "trailing": 10
+                            }
+                        },
+                        {
+                            "type": "column",
+                            "alignment": "leading",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "text": "Wireless Headphones",
+                                    "fontSize": 16,
+                                    "fontWeight": "semibold",
+                                    "textColor": "#212121"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "1,299 EGP",
+                                    "fontSize": 14,
+                                    "fontWeight": "bold",
+                                    "textColor": "#D32F2F"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "20% OFF",
+                                    "fontSize": 12,
+                                    "fontWeight": "medium",
+                                    "textColor": "#4CAF50"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "row",
+                    "backgroundColor": "#FFFFFF",
+                    "cornerRadius": 8,
+                    "padding": {
+                        "top": 10,
+                        "bottom": 10,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Smart Watch"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "applewatch",
+                            "width": 80,
+                            "height": 80,
+                            "backgroundColor": "#FAFAFA",
+                            "cornerRadius": 8,
+                            "padding": {
+                                "trailing": 10
+                            }
+                        },
+                        {
+                            "type": "column",
+                            "alignment": "leading",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "text": "Smart Watch",
+                                    "fontSize": 16,
+                                    "fontWeight": "semibold",
+                                    "textColor": "#212121"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "5,999 EGP",
+                                    "fontSize": 14,
+                                    "fontWeight": "bold",
+                                    "textColor": "#D32F2F"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "row",
+                    "backgroundColor": "#FFFFFF",
+                    "cornerRadius": 8,
+                    "padding": {
+                        "top": 10,
+                        "bottom": 10,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Bluetooth Speaker"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "hifispeaker.fill",
+                            "width": 80,
+                            "height": 80,
+                            "backgroundColor": "#FAFAFA",
+                            "cornerRadius": 8,
+                            "padding": {
+                                "trailing": 10
+                            }
+                        },
+                        {
+                            "type": "column",
+                            "alignment": "leading",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "text": "Bluetooth Speaker",
+                                    "fontSize": 16,
+                                    "fontWeight": "semibold",
+                                    "textColor": "#212121"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "899 EGP",
+                                    "fontSize": 14,
+                                    "fontWeight": "bold",
+                                    "textColor": "#D32F2F"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "15% OFF",
+                                    "fontSize": 12,
+                                    "fontWeight": "medium",
+                                    "textColor": "#4CAF50"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "row",
+                    "backgroundColor": "#FFFFFF",
+                    "cornerRadius": 8,
+                    "padding": {
+                        "top": 10,
+                        "bottom": 10,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Gaming Console"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "gamecontroller.fill",
+                            "width": 80,
+                            "height": 80,
+                            "backgroundColor": "#FAFAFA",
+                            "cornerRadius": 8,
+                            "padding": {
+                                "trailing": 10
+                            }
+                        },
+                        {
+                            "type": "column",
+                            "alignment": "leading",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "text": "Gaming Console",
+                                    "fontSize": 16,
+                                    "fontWeight": "semibold",
+                                    "textColor": "#212121"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "12,500 EGP",
+                                    "fontSize": 14,
+                                    "fontWeight": "bold",
+                                    "textColor": "#D32F2F"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "row",
+                    "backgroundColor": "#FFFFFF",
+                    "cornerRadius": 8,
+                    "padding": {
+                        "top": 10,
+                        "bottom": 10,
+                        "leading": 10,
+                        "trailing": 10
+                    },
+                    "action": {
+                        "type": "alert",
+                        "destination": "Laptop Stand"
+                    },
+                    "children": [
+                        {
+                            "type": "image",
+                            "imageType": "local",
+                            "imageUrl": "laptopcomputer",
+                            "width": 80,
+                            "height": 80,
+                            "backgroundColor": "#FAFAFA",
+                            "cornerRadius": 8,
+                            "padding": {
+                                "trailing": 10
+                            }
+                        },
+                        {
+                            "type": "column",
+                            "alignment": "leading",
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "text": "Laptop Stand",
+                                    "fontSize": 16,
+                                    "fontWeight": "semibold",
+                                    "textColor": "#212121"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "349 EGP",
+                                    "fontSize": 14,
+                                    "fontWeight": "bold",
+                                    "textColor": "#D32F2F"
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "10% OFF",
+                                    "fontSize": 12,
+                                    "fontWeight": "medium",
+                                    "textColor": "#4CAF50"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
