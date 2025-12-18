@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct SDUIBillView: View {
-    // 1. Data Source
-    private let items: [SDUIComponent]
+    private let items: [BillItem]
     private let onAction: (SDUIAction?) -> Void
-    
-    // 2. Logic Handler
     private let handler: SDUIBillHandler
     
     init(component: SDUIComponent, onAction: @escaping (SDUIAction?) -> Void) {
-        self.items = component.children ?? []
+        self.items = (component.children ?? []).map {
+            BillItem(
+                id: $0.id,
+                title: $0.text ?? "",
+                imageUrl: $0.imageUrl,
+                action: $0.action
+            )
+        }
         self.onAction = onAction
         self.handler = SDUIBillHandler(key: component.key ?? component.templateId)
     }
@@ -25,7 +29,6 @@ struct SDUIBillView: View {
         switch handler.layout {
         case .horizontal:
             HorizontalLayout(items: items, shape: handler.shape, onAction: onAction)
-            
         case .vertical:
             VerticalLayout(items: items, shape: handler.shape, onAction: onAction)
         }
@@ -34,7 +37,7 @@ struct SDUIBillView: View {
 
 // MARK: - 1. Horizontal Layout (Cards)
 private struct HorizontalLayout: View {
-    let items: [SDUIComponent]
+    let items: [BillItem]
     let shape: SDUIBillHandler.Shape
     let onAction: (SDUIAction?) -> Void
     
@@ -43,11 +46,7 @@ private struct HorizontalLayout: View {
             HStack(spacing: 16) {
                 ForEach(items) { item in
                     Button(action: { onAction(item.action) }) {
-                       BillCard(
-                            title: item.text ?? "",
-                            imageUrl: item.imageUrl,
-                            shape: shape
-                        )
+                       BillCard(item: item, shape: shape)
                     }
                 }
             }
@@ -57,9 +56,9 @@ private struct HorizontalLayout: View {
     }
 }
 
-// MARK: - 2. Vertical Layout
+// MARK: Vertical Layout
 private struct VerticalLayout: View {
-    let items: [SDUIComponent]
+    let items: [BillItem]
     let shape: SDUIBillHandler.Shape
     let onAction: (SDUIAction?) -> Void
     
@@ -67,11 +66,7 @@ private struct VerticalLayout: View {
         VStack(spacing: 0) {
             ForEach(items) { item in
                 Button(action: { onAction(item.action) }) {
-                    BillRow(
-                        title: item.text ?? "",
-                        imageUrl: item.imageUrl,
-                        shape: shape
-                    )
+                    BillRow(item: item, shape: shape)
                 }
                 if item.id != items.last?.id {
                     Divider().padding(.leading, 82)
@@ -85,15 +80,14 @@ private struct VerticalLayout: View {
 
 //  vertical item
 private struct BillCard: View {
-    let title: String
-    let imageUrl: String?
+    let item: BillItem
     let shape: SDUIBillHandler.Shape
     
     var body: some View {
         VStack(spacing: 8) {
-            BillIcon(url: imageUrl, shape: shape, size: 60)
+            BillIcon(url: item.imageUrl, shape: shape, size: 60)
             
-            Text(title)
+            Text(item.title)
                 .font(.caption)
                 .fontWeight(.medium)
                 .foregroundColor(.primary)
@@ -105,15 +99,14 @@ private struct BillCard: View {
 
 // A horizontal item
 private struct BillRow: View {
-    let title: String
-    let imageUrl: String?
+    let item: BillItem
     let shape: SDUIBillHandler.Shape
     
     var body: some View {
         HStack(spacing: 16) {
-            BillIcon(url: imageUrl, shape: shape, size: 50)
+            BillIcon(url: item.imageUrl, shape: shape, size: 50)
             
-            Text(title)
+            Text(item.title)
                 .font(.body)
                 .foregroundColor(.primary)
             
@@ -128,7 +121,7 @@ private struct BillRow: View {
     }
 }
 
-// MARK: - 4. Core Icon Component
+// MARK: Core Icon Component
 private struct BillIcon: View {
     let url: String?
     let shape: SDUIBillHandler.Shape
@@ -144,16 +137,20 @@ private struct BillIcon: View {
     
     @ViewBuilder
     private var imageView: some View {
-        if let _ = url {
-            Image(systemName: "doc.text.fill")
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(.blue)
+        if let str = url {
+            if let _ = URL(string: str), str.contains("http") {
+                RemoteImage(url: str)
+            } else {
+                Image(systemName: str)
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.blue)
+            }
         } else {
-            Image(systemName: "creditcard.fill")
+            Image(systemName: "photo")
                 .resizable()
                 .scaledToFit()
-                .foregroundColor(.blue)
+                .foregroundColor(.gray)
         }
     }
 }
