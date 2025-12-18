@@ -16,7 +16,7 @@ struct SDUIBannerView: View {
     init(component: SDUIComponent, onAction: @escaping (SDUIAction?) -> Void) {
         self.component = component
         self.onAction = onAction
-         self.handler = SDUIBannerHandler(key: component.templateId)
+         self.handler = SDUIBannerHandler(key: component.key)
     }
     
     var body: some View {

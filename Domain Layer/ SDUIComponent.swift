@@ -54,6 +54,7 @@ struct SDUIResponse: Codable {
 // MARK: - SDUI Component
 struct SDUIComponent: Codable, Identifiable {
     let id: String
+    let key: String?
     let type: SDUIComponentType
     let text: String?
     let imageUrl: String?
