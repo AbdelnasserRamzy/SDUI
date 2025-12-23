@@ -30,6 +30,7 @@ enum SDUIComponentType: String, Codable {
     case column
     case scrollView
     case banner
+    case bill
 }
 
 // MARK: - Padding
@@ -99,6 +100,7 @@ struct SDUIComponent: Codable, Identifiable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.type = try container.decode(SDUIComponentType.self, forKey: .type)
         self.text = try container.decodeIfPresent(String.self, forKey: .text)
+        self.key = try container.decodeIfPresent(String.self, forKey: .key)
         self.imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
         self.imageType = try container.decodeIfPresent(String.self, forKey: .imageType)
         self.action = try container.decodeIfPresent(SDUIAction.self, forKey: .action)
@@ -144,9 +146,10 @@ struct SDUIComponent: Codable, Identifiable {
     }
     
     // Default init for manual creation
-    init(id: String = UUID().uuidString, type: SDUIComponentType, text: String? = nil, imageUrl: String? = nil, imageType: String? = nil, action: SDUIAction? = nil, children: [SDUIComponent]? = nil, fontSize: Double? = nil, fontWeight: String? = nil, textColor: String? = nil, backgroundColor: String? = nil, alignment: String? = nil, height: CGFloat? = nil, padding: Padding? = nil, cornerRadius: Double? = nil, width: CGFloat? = nil, minWidth: CGFloat? = nil, maxWidth: CGFloat? = nil, minHeight: CGFloat? = nil, maxHeight: CGFloat? = nil, scrollDirection: String? = nil, showsIndicators: Bool? = nil, spacing: CGFloat? = nil, maxItemsToDisplay: Int? = nil) {
+    init(id: String = UUID().uuidString, type: SDUIComponentType, text: String? = nil,key: String? = nil, imageUrl: String? = nil, imageType: String? = nil, action: SDUIAction? = nil, children: [SDUIComponent]? = nil, fontSize: Double? = nil, fontWeight: String? = nil, textColor: String? = nil, backgroundColor: String? = nil, alignment: String? = nil, height: CGFloat? = nil, padding: Padding? = nil, cornerRadius: Double? = nil, width: CGFloat? = nil, minWidth: CGFloat? = nil, maxWidth: CGFloat? = nil, minHeight: CGFloat? = nil, maxHeight: CGFloat? = nil, scrollDirection: String? = nil, showsIndicators: Bool? = nil, spacing: CGFloat? = nil, maxItemsToDisplay: Int? = nil) {
         self.id = id
         self.type = type
+        self.key = key
         self.text = text
         self.imageUrl = imageUrl
         self.imageType = imageType
@@ -177,7 +180,7 @@ struct SDUIComponent: Codable, Identifiable {
     }
     
     private enum CodingKeys: String, CodingKey {
-        case id, type, text, imageUrl, imageType, action, children
+        case id, type, text, imageUrl, imageType, action, children, key
         case fontSize, fontWeight, textColor, backgroundColor, alignment, height, padding
         case cornerRadius, width, minWidth, maxWidth, minHeight, maxHeight
         case scrollDirection, showsIndicators, spacing

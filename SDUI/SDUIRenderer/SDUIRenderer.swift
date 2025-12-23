@@ -39,6 +39,10 @@ struct SDUIRenderer: View {
              SDUIBannerView(component: component) { action in
                 router.handle(action)
             }
+        case .bill:
+            SDUIBannerView(component: component) { action in
+               router.handle(action)
+           }
         }
     }
 }
