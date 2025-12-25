@@ -15,7 +15,7 @@ struct MockData {
     static var frequentlyBills: SDUIComponent {
         SDUIComponent(
             id: "1",
-            key: "Frequently_1", type: .bill,         // ✅ Matches Renderer Switch
+            key: "Frequently_1", type: .bill,         
             children: [
                 SDUIComponent(type: .button, text: "Electric", imageUrl: "bolt.fill"),
                 SDUIComponent(type: .button, text: "Water", imageUrl: "drop.fill"),

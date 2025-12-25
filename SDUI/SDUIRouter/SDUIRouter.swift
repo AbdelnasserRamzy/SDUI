@@ -20,7 +20,10 @@ final class SDUIRouterImp: @preconcurrency BaseRouter, ObservableObject {
         let controller = createVC(with: view, controllerType: SDUIViewController.self)
         controller.router = router
         router.screenVC = controller
-        router.setNavigationTitle(screenId.capitalized)
+        
+        // Use view name from metadata if available
+        let displayName = UIClient.shared.getViewName(forKey: screenId)
+        router.setNavigationTitle(displayName)
         
         return controller
     }

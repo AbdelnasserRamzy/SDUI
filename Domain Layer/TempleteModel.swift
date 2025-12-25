@@ -2,8 +2,6 @@
 //  TempleteModel.swift
 //  SDUI
 //
-//  Created by Shrouk Yasser on 23/12/2025.
-//
 
 import Foundation
 
@@ -17,7 +15,6 @@ struct FlowViewMeta: Codable {
     let key: String 
     let version: Int
 }
-
 
 struct ScreenContentResponse: Codable {
     let components: [SDUIComponent]

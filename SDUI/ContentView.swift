@@ -44,6 +44,6 @@ struct ScreenView: View {
             }
         }
         .background(Color(.systemGroupedBackground))
-        .navigationTitle(screenId.capitalized)
+        .navigationTitle(client.getViewName(forKey: screenId))
     }
 }

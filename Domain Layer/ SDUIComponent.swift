@@ -1,13 +1,10 @@
 //
-//   SDUIComponent.swift
+//  SDUIComponent.swift
 //  SDUI
-//
-//  Created by AbdelNasser Ramzy on 02/12/2025.
 //
 
 import Foundation
 
-// MARK: - SDUI Action
 struct SDUIAction: Codable, Hashable {
     let type: ActionType
     let destination: String?
@@ -17,7 +14,6 @@ struct SDUIAction: Codable, Hashable {
     }
 }
 
-// MARK: - SDUI Component Type
 enum SDUIComponentType: String, Codable {
     case text, image, button, row, column, scrollView, banner, bill
     
