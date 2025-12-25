@@ -40,7 +40,7 @@ struct SDUIRenderer: View {
                 router.handle(action)
             }
         case .bill:
-            SDUIBannerView(component: component) { action in
+            SDUIBillView(component: component) { action in
                router.handle(action)
            }
         }

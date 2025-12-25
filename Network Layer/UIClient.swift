@@ -9,161 +9,131 @@ import Foundation
 import Combine
 
 class UIClient: ObservableObject {
-    // 1. Shared Instance for Router access
     static let shared = UIClient()
     
     @Published var screens: [String: SDUIComponent] = [:]
+    @Published var flowSequence: [String] = []
     @Published var initialScreenId: String? = nil
     
-    // API endpoint URL
-    private let apiEndpoint = "https://mock.apidog.com/m1/1108865-1099361-default/screen?name=ramzy123123"
+    private let baseURL = "https://grey.paysky.io:7009/MockupUI/mockAPI/module/bills"
     
-    // MARK: - Initialization
-    private init() {} // Private init to enforce singleton usage if desired
+    private init() {}
     
-    // MARK: - Fetch Logic
+    // MARK: - Main Entry Point
     func fetchUI() {
         Task { @MainActor in
-            await loadFromAPI()
+            await fetchFlowConfig()
             
-            // Fallback logic: If API failed (screens is empty), try local mock
-            if screens.isEmpty {
-                print("⚠️ API failed or returned empty. Attempting local mock...")
-                loadMockData()
+            if let firstKey = flowSequence.first {
+                await fetchScreenContent(key: firstKey)
+                self.initialScreenId = firstKey
             }
         }
     }
     
-    // MARK: - Load from API
+    // MARK: - Step 1: Fetch Flow
     @MainActor
-    private func loadFromAPI() async {
-        guard let url = URL(string: apiEndpoint) else {
-            print("Error: Invalid API URL")
-            return
-        }
+    private func fetchFlowConfig() async {
+        print("\n🌐 --- STEP 1: FETCHING FLOW CONFIG ---")
         
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("Error: Invalid HTTP response")
-                return
-            }
-            
-            let sduiResponse = try JSONDecoder().decode(SDUIResponse.self, from: data)
-            
-            // Update state
-            self.screens = Dictionary(uniqueKeysWithValues: sduiResponse.screens.map { ($0.id, $0) })
-            self.initialScreenId = sduiResponse.screens.first?.id
-            
-            // Apply templates
-            applyTemplates()
-            
-            print("✅ Successfully loaded \(self.screens.count) screens from API")
-        } catch {
-            print("❌ Error loading from API: \(error.localizedDescription)")
-            // We do not call loadMockData here anymore to keep logic clean.
-            // The fetchUI() Task handles the fallback check.
-        }
-    }
-    
-    // MARK: - Load from Local Mock
-    @MainActor
-    func loadMockData() {
-        guard let url = Bundle.main.url(forResource: "mock", withExtension: "json") else {
-            print("Error: mock.json not found in bundle")
-            return
-        }
-        
-        do {
-            let data = try Data(contentsOf: url)
-            let response = try JSONDecoder().decode(SDUIResponse.self, from: data)
-            
-            // Update state
-            self.screens = Dictionary(uniqueKeysWithValues: response.screens.map { ($0.id, $0) })
-            self.initialScreenId = response.screens.first?.id
-            
-            // Apply templates
-            applyTemplates()
-            
-            print("✅ Successfully loaded \(self.screens.count) screens from mock.json")
-        } catch {
-            print("Error decoding JSON: \(error)")
-        }
-    }
-    
-    // MARK: - Template Loading
-    // This doesn't need @MainActor as it returns data and doesn't modify state directly
-    private func loadTemplate(templateId: String) -> [SDUIComponent]? {
-        guard let url = Bundle.main.url(forResource: templateId, withExtension: "json") else {
-            print("⚠️ Template file '\(templateId).json' not found in bundle")
-            return nil
-        }
-        
-        do {
-            let data = try Data(contentsOf: url)
-            let template = try JSONDecoder().decode(SDUITemplate.self, from: data)
-            return template.components
-        } catch {
-            print("❌ Error decoding template '\(templateId)': \(error)")
-            return nil
-        }
-    }
-    
-    // MARK: - Apply Templates
-    @MainActor
-    private func applyTemplates() {
-        var updatedScreens: [String: SDUIComponent] = [:]
-        
-        for (screenId, screen) in screens {
-            if let templateId = screen.templateId {
-                if let templateComponents = loadTemplate(templateId: templateId) {
-                    
-                    // Create new component with template children
-                    let updatedScreen = SDUIComponent(
-                        id: screen.id,
-                        type: screen.type,
-                        text: screen.text,
-                        imageUrl: screen.imageUrl,
-                        imageType: screen.imageType,
-                        action: screen.action,
-                        children: templateComponents, // <--- Template injected here
-                        fontSize: screen.fontSize,
-                        fontWeight: screen.fontWeight,
-                        textColor: screen.textColor,
-                        backgroundColor: screen.backgroundColor,
-                        alignment: screen.alignment,
-                        height: screen.height,
-                        padding: screen.padding,
-                        cornerRadius: screen.cornerRadius,
-                        width: screen.width,
-                        minWidth: screen.minWidth,
-                        maxWidth: screen.maxWidth,
-                        minHeight: screen.minHeight,
-                        maxHeight: screen.maxHeight,
-                        scrollDirection: screen.scrollDirection,
-                        showsIndicators: screen.showsIndicators,
-                        spacing: screen.spacing,
-                        maxItemsToDisplay: screen.maxItemsToDisplay
-                    )
-                    
-                    updatedScreens[screenId] = updatedScreen
-                } else {
-                    updatedScreens[screenId] = screen
+        if let url = URL(string: "https://grey.paysky.io:5012/mockAPI/module/bills") {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                
+                // 🔍 DEBUG: Print Raw JSON
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    print("📄 API RAW JSON (Config): \(jsonString)")
                 }
-            } else {
-                updatedScreens[screenId] = screen
+                
+                let response = try JSONDecoder().decode(FlowConfigResponse.self, from: data)
+                
+                self.flowSequence = response.views.map { $0.key }
+                print("✅ API Flow Sequence: \(self.flowSequence)")
+                print("✅ USING REAL API DATA (Config)")
+                return
+            } catch {
+                print("❌ API Config Failed: \(error)")
+                print("➡️ Switching to Mock Config...")
             }
         }
         
-        // Final State Update on Main Thread
-        self.screens = updatedScreens
-        print("✅ Templates applied. Final screen count: \(self.screens.count)")
+        // Fallback
+        print("⚠️ USING MOCK DATA (Config)")
+        self.flowSequence = ["Home_KEY", "Details_KEY", "CHECKOUT_KEY"]
     }
     
-    // MARK: - Helper
+    // MARK: - Step 2: Fetch Content
+    @MainActor
+    func fetchScreenContent(key: String) async {
+        if screens[key] != nil { return }
+        
+        print("\n📥 --- STEP 2: FETCHING CONTENT FOR: \(key) ---")
+        
+        let urlString = "\(baseURL)/views/\(key)/components"
+        
+        if let url = URL(string: urlString) {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                
+                // 🔍 DEBUG: Print Raw JSON
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    print("📄 API RAW JSON (Content for \(key)):")
+                    print(jsonString)
+                }
+                
+                let response = try JSONDecoder().decode(ScreenContentResponse.self, from: data)
+                
+                let screenContainer = SDUIComponent(
+                    id: key,
+                    key: key, type: .column,
+                    children: response.components
+                )
+                
+                self.screens[key] = screenContainer
+                print("✅ API Content for '\(key)' Loaded")
+                print("✅ USING REAL API DATA (Content)")
+                return
+                
+            } catch {
+                print("❌ API Content Failed for \(key): \(error)")
+                print("➡️ Switching to Mock Content...")
+            }
+        }
+        
+        // ---------------------------------------------------------
+        // 2. MOCK DATA (Fallback)
+        // ---------------------------------------------------------
+        print("⚠️ USING MOCK DATA (Content for \(key))")
+        
+        var children: [SDUIComponent] = []
+        
+        if key == "Home_KEY" {
+            children = [
+                SDUIComponent(id: UUID().uuidString, key: nil, type: .text, text: "Dashboard (Mock)", fontSize: 28, fontWeight: "bold", padding: Padding(bottom: 10, leading: 16)),
+                MockData.frequentlyBills,
+                SDUIComponent(id: UUID().uuidString, key: nil, type: .text, text: "Offers", fontSize: 20, fontWeight: "semibold", padding: Padding(top: 20, leading: 16)),
+                MockData.mainBanner,
+                MockData.billView
+            ]
+        } else {
+            children = [
+                SDUIComponent(id: UUID().uuidString, key: nil, type: .text, text: "Screen: \(key)", fontSize: 24, alignment: "center"),
+                SDUIComponent(id: UUID().uuidString, key: nil, type: .button, text: "Next Step", action: SDUIAction(type: .navigate, destination: nil))
+            ]
+        }
+        
+        let screenContainer = SDUIComponent(
+            id: key,
+            key: key, type: .column,
+            children: children
+        )
+        self.screens[key] = screenContainer
+    }
+    
     func getScreen(id: String) -> SDUIComponent? {
+        if screens[id] == nil {
+            Task { await fetchScreenContent(key: id) }
+        }
         return screens[id]
     }
 }

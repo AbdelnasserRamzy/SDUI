@@ -5,14 +5,17 @@
 //  Created by Shrouk Yasser on 18/12/2025.
 //
 
+
 import Foundation
 
 struct MockData {
     
-    // MARK: - Bills Mock
-    static var horizontalBills: SDUIComponent {
+    // 1. Frequently Bills
+    // Handler looks for "FREQUENTLY" -> Layout: Horizontal, Shape: Round
+    static var frequentlyBills: SDUIComponent {
         SDUIComponent(
-            type: .bill, key: "BILL_HORIZ_ROUND",
+            id: "1",
+            key: "Frequently_1", type: .bill,         // ✅ Matches Renderer Switch
             children: [
                 SDUIComponent(type: .button, text: "Electric", imageUrl: "bolt.fill"),
                 SDUIComponent(type: .button, text: "Water", imageUrl: "drop.fill"),
@@ -23,21 +26,12 @@ struct MockData {
         )
     }
     
-    static var verticalBills: SDUIComponent {
+    // 2. Banner
+    // Handler looks for "BANNER" -> Type: Slider
+    static var mainBanner: SDUIComponent {
         SDUIComponent(
-            type: .bill, key: "BILL_VERT_SQUARE",
-            children: [
-                SDUIComponent(type: .button, text: "Rent - January", imageUrl: "house.fill"),
-                SDUIComponent(type: .button, text: "Gym Membership", imageUrl: "figure.walk"),
-                SDUIComponent(type: .button, text: "Netflix Subscription", imageUrl: "tv.fill")
-            ]
-        )
-    }
-    
-    // MARK: - Banners Mock
-    static var sliderBanner: SDUIComponent {
-        SDUIComponent(
-            type: .banner, key: "SLIDER",
+            id: "2",
+            key: "Banner_1", type: .banner,
             children: [
                 SDUIComponent(type: .image, text: "Summer Sale", imageUrl: "photo"),
                 SDUIComponent(type: .image, text: "Winter Collection", imageUrl: "photo"),
@@ -46,9 +40,16 @@ struct MockData {
         )
     }
     
-    static var promoBanner: SDUIComponent {
+    // 3. Bill View
+    static var billView: SDUIComponent {
         SDUIComponent(
-            type: .banner, text: "Get 50% Cashback Now!", key: "PROMO"
+            id: "3",
+            key: "BILL_VIEW_1", type: .bill,
+            children: [
+                SDUIComponent(type: .button, text: "Rent - January", imageUrl: "house.fill"),
+                SDUIComponent(type: .button, text: "Gym Membership", imageUrl: "figure.walk"),
+                SDUIComponent(type: .button, text: "Netflix Subscription", imageUrl: "tv.fill")
+            ]
         )
     }
 }

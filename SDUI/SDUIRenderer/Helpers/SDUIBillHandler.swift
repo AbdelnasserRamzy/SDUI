@@ -5,6 +5,13 @@
 //  Created by Shrouk Yasser on 18/12/2025.
 //
 
+//
+//  SDUIBillHandler.swift
+//  SDUI
+//
+//  Created by Shrouk Yasser on 18/12/2025.
+//
+
 import Foundation
 
 struct SDUIBillHandler {
@@ -25,17 +32,19 @@ struct SDUIBillHandler {
     init(key: String?) {
         let k = key?.uppercased() ?? ""
         
-        // 1. Layout Logic
-        if k.contains("HORIZ") || k.contains("SLIDER") {
+        // 1. Check for "Frequently" -> Horizontal Scroll
+        if k.contains("FREQUENTLY") {
             self.layout = .horizontal
-        } else {
-            self.layout = .vertical
+            self.shape = .rounded
         }
-        
-        // 2. Shape Logic
-        if k.contains("SQUARE") {
+        // 2. Check for "BILL_VIEW" -> Vertical List
+        else if k.contains("BILL_VIEW") {
+            self.layout = .vertical
             self.shape = .square
-        } else {
+        }
+        // 3. Defaults / Fallbacks
+        else {
+            self.layout = .vertical
             self.shape = .rounded
         }
     }

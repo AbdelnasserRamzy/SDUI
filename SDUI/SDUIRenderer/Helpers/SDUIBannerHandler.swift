@@ -22,11 +22,19 @@ enum BannerType {
     case list    // Vertical
     case promo   // Static
     
+    // ✅ THIS IS THE MAPPING LOGIC
     init(key: String?) {
-        switch key?.uppercased() {
-        case "HORIZONTAL", "SLIDER": self = .slider
-        case "VERTICAL", "LIST":     self = .list
-        default:                     self = .promo
+        let k = key?.uppercased() ?? ""
+        
+        // Map "Banner_1" -> Slider
+        if k.contains("BANNER") || k.contains("SLIDER") {
+            self = .slider
+        }
+        else if k.contains("LIST") {
+            self = .list
+        }
+        else {
+            self = .promo
         }
     }
 }

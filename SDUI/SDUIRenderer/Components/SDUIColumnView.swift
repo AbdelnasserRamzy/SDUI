@@ -14,13 +14,18 @@ struct SDUIColumnView: View {
     var body: some View {
         let spacing = component.spacing ?? 10
         
-        // Limit children if maxItemsToDisplay is set
         let limitedChildren: [SDUIComponent]? = {
             guard let children = component.children else { return nil }
-            if let limit = component.maxItemsToDisplay, limit > 0 {
-                return Array(children.prefix(min(limit, children.count)))
+            
+           
+            let sortedChildren = children.sorted {
+                ($0.order ?? 999) < ($1.order ?? 999)
             }
-            return children
+            
+            if let limit = component.maxItemsToDisplay, limit > 0 {
+                return Array(sortedChildren.prefix(min(limit, sortedChildren.count)))
+            }
+            return sortedChildren
         }()
         
         VStack(alignment: getVStackAlignment(), spacing: spacing) {
@@ -31,36 +36,24 @@ struct SDUIColumnView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: getFrameAlignment())
-        .if(component.action != nil) { view in
-            view.onTapGesture {
-                handleAction(component.action)
+        .onTapGesture {
+            if let action = component.action {
+                handleAction(action)
             }
         }
     }
     
-    // MARK: - Alignment Helpers
-    
     private func getVStackAlignment() -> HorizontalAlignment {
-        guard let alignment = component.alignment?.lowercased() else {
-            return .leading
-        }
-        
-        switch alignment {
-        case "center": return .center
-        case "trailing": return .trailing
-        default: return .leading
-        }
+        let align = component.alignment?.lowercased()
+        if align == "center" { return .center }
+        if align == "trailing" { return .trailing }
+        return .leading
     }
     
     private func getFrameAlignment() -> Alignment {
-        guard let alignment = component.alignment?.lowercased() else {
-            return .leading
-        }
-        
-        switch alignment {
-        case "center": return .center
-        case "trailing": return .trailing
-        default: return .leading
-        }
+        let align = component.alignment?.lowercased()
+        if align == "center" { return .center }
+        if align == "trailing" { return .trailing }
+        return .leading
     }
 }

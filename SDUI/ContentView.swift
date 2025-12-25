@@ -12,14 +12,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            ProgressView()
-                .scaleEffect(1.5)
-            Text("Loading ...")
-                .foregroundColor(.gray)
+            ProgressView().scaleEffect(1.5)
+            Text("Loading ...").foregroundColor(.gray)
         }
-        .onAppear {
-            client.fetchUI()
-        }
+        .onAppear { client.fetchUI() }
         .onChange(of: client.initialScreenId) { newId in
             if let id = newId {
                SDUIRouterImp.startApp(initialId: id)
@@ -34,22 +30,20 @@ struct ScreenView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
+            VStack(spacing: 0) {
                 if let screen = client.getScreen(id: screenId) {
                     SDUIRenderer(component: screen)
                 } else if client.screens.isEmpty {
                     ProgressView("Loading UI...")
+                        .padding(.top, 50)
                 } else {
                     Text("Screen '\(screenId)' not found")
                         .foregroundColor(.red)
+                        .padding(.top, 50)
                 }
             }
-            .padding()
         }
+        .background(Color(.systemGroupedBackground))
         .navigationTitle(screenId.capitalized)
     }
-}
-
-#Preview {
-    ContentView()
 }

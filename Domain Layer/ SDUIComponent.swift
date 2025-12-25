@@ -13,38 +13,37 @@ struct SDUIAction: Codable, Hashable {
     let destination: String?
     
     enum ActionType: String, Codable {
-        case openURL
-        case navigate
-        case goBack
-        case reset
-        case alert
+        case openURL, navigate, goBack, reset, alert
     }
 }
 
 // MARK: - SDUI Component Type
 enum SDUIComponentType: String, Codable {
-    case text
-    case image
-    case button
-    case row
-    case column
-    case scrollView
-    case banner
-    case bill
+    case text, image, button, row, column, scrollView, banner, bill
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawString = try container.decode(String.self)
+        
+        switch rawString.lowercased() {
+        case "text": self = .text
+        case "image": self = .image
+        case "button": self = .button
+        case "row": self = .row
+        case "column": self = .column
+        case "scrollview": self = .scrollView
+        case "banner": self = .banner
+        case "frequently", "bill", "bill_view": self = .bill
+        default: self = .column
+        }
+    }
 }
 
 // MARK: - Padding
 struct Padding: Codable, Hashable {
-    let top: Double?
-    let bottom: Double?
-    let leading: Double?
-    let trailing: Double?
-    
+    let top, bottom, leading, trailing: Double?
     init(top: Double? = nil, bottom: Double? = nil, leading: Double? = nil, trailing: Double? = nil) {
-        self.top = top
-        self.bottom = bottom
-        self.leading = leading
-        self.trailing = trailing
+        self.top = top; self.bottom = bottom; self.leading = leading; self.trailing = trailing
     }
 }
 
@@ -56,6 +55,7 @@ struct SDUIResponse: Codable {
 struct SDUIComponent: Codable, Identifiable {
     let id: String
     let key: String?
+    let order: Int?
     let type: SDUIComponentType
     let text: String?
     let imageUrl: String?
@@ -63,7 +63,7 @@ struct SDUIComponent: Codable, Identifiable {
     let action: SDUIAction?
     let children: [SDUIComponent]?
     
-    // Styling properties
+    // Styling
     let fontSize: Double?
     let fontWeight: String?
     let textColor: String?
@@ -72,7 +72,7 @@ struct SDUIComponent: Codable, Identifiable {
     let height: CGFloat?
     let padding: Padding?
     
-    // Frame and corner properties
+    // Frame
     let cornerRadius: Double?
     let width: CGFloat?
     let minWidth: CGFloat?
@@ -80,33 +80,37 @@ struct SDUIComponent: Codable, Identifiable {
     let minHeight: CGFloat?
     let maxHeight: CGFloat?
     
-    // ScrollView properties
+    // ScrollView
     let scrollDirection: String?
     let showsIndicators: Bool?
     let spacing: CGFloat?
     let maxItemsToDisplay: Int?
     
-    // Banner Properties
+    // Banner
     let autoScrollInterval: Double?
     let isWrap: Bool?
     let sidesScaling: CGFloat?
     let headspace: CGFloat?
     
-    // Template support
+    // Template
     let templateId: String?
     
-    // Custom decoding to handle missing ID if needed, or generate one
+    // MARK: - Decoding Init
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
         self.type = try container.decode(SDUIComponentType.self, forKey: .type)
-        self.text = try container.decodeIfPresent(String.self, forKey: .text)
+        self.id = try container.decodeIfPresent(String.self, forKey: .id) ?? UUID().uuidString
         self.key = try container.decodeIfPresent(String.self, forKey: .key)
+        self.order = try container.decodeIfPresent(Int.self, forKey: .order) // ✅ Fixed: Initialized
+        
+        self.text = try container.decodeIfPresent(String.self, forKey: .text)
         self.imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
         self.imageType = try container.decodeIfPresent(String.self, forKey: .imageType)
         self.action = try container.decodeIfPresent(SDUIAction.self, forKey: .action)
         self.children = try container.decodeIfPresent([SDUIComponent].self, forKey: .children)
         
-        // Styling properties
+        // Styles
         self.fontSize = try container.decodeIfPresent(Double.self, forKey: .fontSize)
         self.fontWeight = try container.decodeIfPresent(String.self, forKey: .fontWeight)
         self.textColor = try container.decodeIfPresent(String.self, forKey: .textColor)
@@ -115,7 +119,7 @@ struct SDUIComponent: Codable, Identifiable {
         self.height = try container.decodeIfPresent(CGFloat.self, forKey: .height)
         self.padding = try container.decodeIfPresent(Padding.self, forKey: .padding)
         
-        // Frame and corner properties
+        // Dimensions
         self.cornerRadius = try container.decodeIfPresent(Double.self, forKey: .cornerRadius)
         self.width = try container.decodeIfPresent(CGFloat.self, forKey: .width)
         self.minWidth = try container.decodeIfPresent(CGFloat.self, forKey: .minWidth)
@@ -123,7 +127,7 @@ struct SDUIComponent: Codable, Identifiable {
         self.minHeight = try container.decodeIfPresent(CGFloat.self, forKey: .minHeight)
         self.maxHeight = try container.decodeIfPresent(CGFloat.self, forKey: .maxHeight)
         
-        // ScrollView properties
+        // Props
         self.scrollDirection = try container.decodeIfPresent(String.self, forKey: .scrollDirection)
         self.showsIndicators = try container.decodeIfPresent(Bool.self, forKey: .showsIndicators)
         self.spacing = try container.decodeIfPresent(CGFloat.self, forKey: .spacing)
@@ -133,23 +137,41 @@ struct SDUIComponent: Codable, Identifiable {
         self.isWrap = try container.decodeIfPresent(Bool.self, forKey: .isWrap)
         self.sidesScaling = try container.decodeIfPresent(CGFloat.self, forKey: .sidesScaling)
         self.headspace = try container.decodeIfPresent(CGFloat.self, forKey: .headspace)
-        
-        // Template support
         self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
-        
-        // If ID is present use it, otherwise generate unique string
-        if let idString = try container.decodeIfPresent(String.self, forKey: .id) {
-            self.id = idString
-        } else {
-            self.id = UUID().uuidString
-        }
     }
     
-    // Default init for manual creation
-    init(id: String = UUID().uuidString, type: SDUIComponentType, text: String? = nil,key: String? = nil, imageUrl: String? = nil, imageType: String? = nil, action: SDUIAction? = nil, children: [SDUIComponent]? = nil, fontSize: Double? = nil, fontWeight: String? = nil, textColor: String? = nil, backgroundColor: String? = nil, alignment: String? = nil, height: CGFloat? = nil, padding: Padding? = nil, cornerRadius: Double? = nil, width: CGFloat? = nil, minWidth: CGFloat? = nil, maxWidth: CGFloat? = nil, minHeight: CGFloat? = nil, maxHeight: CGFloat? = nil, scrollDirection: String? = nil, showsIndicators: Bool? = nil, spacing: CGFloat? = nil, maxItemsToDisplay: Int? = nil) {
+    // MARK: - Manual Init
+    init(id: String = UUID().uuidString,
+         key: String? = nil,
+         order: Int? = nil,
+         type: SDUIComponentType,
+         text: String? = nil,
+         imageUrl: String? = nil,
+         imageType: String? = nil,
+         action: SDUIAction? = nil,
+         children: [SDUIComponent]? = nil,
+         fontSize: Double? = nil,
+         fontWeight: String? = nil,
+         textColor: String? = nil,
+         backgroundColor: String? = nil,
+         alignment: String? = nil,
+         height: CGFloat? = nil,
+         padding: Padding? = nil,
+         cornerRadius: Double? = nil,
+         width: CGFloat? = nil,
+         minWidth: CGFloat? = nil,
+         maxWidth: CGFloat? = nil,
+         minHeight: CGFloat? = nil,
+         maxHeight: CGFloat? = nil,
+         scrollDirection: String? = nil,
+         showsIndicators: Bool? = nil,
+         spacing: CGFloat? = nil,
+         maxItemsToDisplay: Int? = nil) {
+        
         self.id = id
-        self.type = type
         self.key = key
+        self.order = order
+        self.type = type
         self.text = text
         self.imageUrl = imageUrl
         self.imageType = imageType
@@ -180,7 +202,7 @@ struct SDUIComponent: Codable, Identifiable {
     }
     
     private enum CodingKeys: String, CodingKey {
-        case id, type, text, imageUrl, imageType, action, children, key
+        case id, key, order, type, text, imageUrl, imageType, action, children
         case fontSize, fontWeight, textColor, backgroundColor, alignment, height, padding
         case cornerRadius, width, minWidth, maxWidth, minHeight, maxHeight
         case scrollDirection, showsIndicators, spacing
